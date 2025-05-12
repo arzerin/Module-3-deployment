@@ -1,12 +1,20 @@
-FROM node:20
+# Set the base image
+FROM node:18
 
-WORKDIR /app
+# Set the working directory in the container
+WORKDIR /usr/src/app
 
-COPY package*.json ./
+# Copy the package.json from the local node-app folder into the container's /usr/src/app
+COPY node-app/* /usr/src/app 
+
+# Install npm dependencies
 RUN npm install
 
-COPY . .
+# Copy the rest of the app's source code into the container
+COPY node-app/src ./src
 
-EXPOSE 5000
-CMD ["npm", "start"]
+# Expose the port that the app will run on
+EXPOSE 5001
 
+# Command to run the app
+CMD ["node", "src/server.js"]
